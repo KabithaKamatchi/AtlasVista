@@ -4,4 +4,9 @@
     <TargetFramework>net4.7</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AtlasVista.Common\AtlasVista.Common.csproj" />
+    <ProjectReference Include="..\AtlasVista.Data\AtlasVista.Data.csproj" />
+  </ItemGroup>
+
 </Project>
