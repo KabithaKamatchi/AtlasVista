@@ -1,54 +1,56 @@
-﻿using AtlasVista.Common;
+﻿using System.Data.Common;
+using AtlasVista.Common;
 using AtlasVista.Data;
 
-namespace AtlasVista.Logic.BusinessLogic.AuthenticationBL
+namespace AtlasVista.Logic
 {
-    public  class AuthenticationBL:IAuthentication
+    public  class AuthenticationBL
     {
-            public bool Register(UserDTOS user)
+        public bool Register(UserDTO user)
+        {
+            foreach( var existingUser in AtlasVistaContext.Users)
             {
-                    foreach( var existingUser in AtlasVistaContext.Users)
-                    {
-                        if(existingUser.Email == user.Email)
-                        {
-                            return false;
-                        }
-                    }
-
-                    if(user.Password != user.ConfirmPassword)
-                    {
-                        return false;
-                    }
-
-                    var newUser = new User
-                    {
-                        Id = user.Id,
-                        Name = user.Name,
-                        UserType = user.UserType,
-                        DateofBirth = user.DateofBirth,
-                        Department = user.Department,
-                        PhoneNo = user.PhoneNo,
-                        Email = user.Email,
-                        Password = user.Password
-                    };
-
-                    AtlasVistaContext.Users.Add(newUser);
-                    return true;
-            }
-
-            public bool Login(UserDTOS user)
-            {
-                    foreach(var existingUser in AtlasVistaContext.Users )           
-                    {
-                        if (existingUser.Email == user.Email)
-
-                        {
-                            return existingUser.Password == user.Password;
-                        }
-                   
-                    }
-
+                if(existingUser.Email == user.Email)
+                {
                     return false;
+                }
             }
+
+            if(user.Password != user.ConfirmPassword)
+            {
+                return false;
+            }
+
+            var newUser = new User(user);
+
+            AtlasVistaContext.Users.Add(newUser);
+            return true;
+        }
+
+        public UserDTO Login(UserDTO user)
+        {
+            foreach(var existingUser in AtlasVistaContext.Users )           
+            {
+                if (existingUser.Email == user.Email)
+                {
+                    if( existingUser.Password == user.Password)
+                    {
+                        return new  UserDTO
+                        {
+                            Id = existingUser.Id,
+                            Name = existingUser.Name,
+                            UserType = existingUser.UserType,
+							DateofBirth = existingUser.DateofBirth,
+							Department = existingUser.Department,
+							PhoneNo = existingUser.PhoneNo,
+							Email = existingUser.Email,
+							Password = existingUser.Password
+
+						};
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

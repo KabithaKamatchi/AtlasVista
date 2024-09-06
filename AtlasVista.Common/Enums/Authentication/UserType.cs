@@ -1,5 +1,4 @@
-﻿
-namespace AtlasVista.Common
+﻿namespace AtlasVista.Common
 {
 	public  enum UserType
 	{

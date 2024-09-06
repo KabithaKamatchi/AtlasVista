@@ -24,7 +24,7 @@ namespace AtlasVista.Data
 
 		public User() { }
 
-		public User(UserDTOS user)
+		public User(UserDTO user)
 		{
 			Id = user.Id;
 			Name = user.Name;

@@ -2,7 +2,7 @@
 
 namespace AtlasVista.Common
 {
-	public class UserDTOS
+	public class UserDTO
 	{
 		public Guid Id { get; set; }
 
