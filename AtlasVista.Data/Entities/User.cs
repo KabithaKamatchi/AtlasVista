@@ -35,5 +35,19 @@ namespace AtlasVista.Data
 			Email = user.Email;
 			Password = user.Password;
 		}
+
+		public UserDTO GetUserDto()
+		{
+			return new UserDTO 
+			{ 
+				Id = this.Id, 
+				Name = this.Name, 
+				UserType = this.UserType, 
+				DateofBirth = this.DateofBirth, 
+				Department = this.Department, 
+				PhoneNo = this.PhoneNo, 
+				Email = this.Email 
+			};
+		}
 	}
 }
