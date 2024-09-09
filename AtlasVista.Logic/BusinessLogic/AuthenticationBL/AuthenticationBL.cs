@@ -1,4 +1,4 @@
-﻿using System.Data.Common;
+﻿using System.Linq;
 using AtlasVista.Common;
 using AtlasVista.Data;
 
@@ -8,18 +8,7 @@ namespace AtlasVista.Logic
     {
         public bool Register(UserDTO user)
         {
-            foreach( var existingUser in AtlasVistaContext.Users)
-            {
-                if(existingUser.Email == user.Email)
-                {
-                    return false;
-                }
-            }
-
-            if(user.Password != user.ConfirmPassword)
-            {
-                return false;
-            }
+           bool userExists = AtlasVistaContext.Users.Any(u => u.Email == user.Email);
 
             var newUser = new User(user);
 
@@ -29,27 +18,24 @@ namespace AtlasVista.Logic
 
         public UserDTO Login(UserDTO user)
         {
-            foreach(var existingUser in AtlasVistaContext.Users )           
-            {
-                if (existingUser.Email == user.Email)
+          var existingUser = AtlasVistaContext.Users.FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+            
+            if(existingUser != null)
+            {       
+                 return new  UserDTO
                 {
-                    if( existingUser.Password == user.Password)
-                    {
-                        return new  UserDTO
-                        {
-                            Id = existingUser.Id,
-                            Name = existingUser.Name,
-                            UserType = existingUser.UserType,
-							DateofBirth = existingUser.DateofBirth,
-							Department = existingUser.Department,
-							PhoneNo = existingUser.PhoneNo,
-							Email = existingUser.Email,
-							Password = existingUser.Password
+                    Id = existingUser.Id,
+                    Name = existingUser.Name,
+                    UserType = existingUser.UserType,
+					DateofBirth = existingUser.DateofBirth,
+					Department = existingUser.Department,
+					PhoneNo = existingUser.PhoneNo,
+					Email = existingUser.Email,
+					Password = existingUser.Password
 
-						};
-                    }
-                }
-            }
+				};
+             }
+                          
             return null;
         }
     }

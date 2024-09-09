@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace AtlasVista.Data
 {
 	public class AtlasVistaContext
