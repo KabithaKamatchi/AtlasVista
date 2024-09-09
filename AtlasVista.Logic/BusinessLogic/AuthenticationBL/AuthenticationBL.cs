@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AtlasVista.Common;
 using AtlasVista.Data;
 
@@ -10,15 +11,20 @@ namespace AtlasVista.Logic
 		{
 			bool userExists = AtlasVistaContext.Users.Any(u => u.Email == user.Email);
 
+			if(userExists)
+			{
+				throw new InvalidOperationException("User already exists");
+			}
+
 			var newUser = new User(user);
 
 			AtlasVistaContext.Users.Add(newUser);
 			return true;
 		}
 
-		public UserDTO Login(UserDTO user)
+		public UserDTO Login(string strEmail, string strPassword)
 		{
-			User existingUser = AtlasVistaContext.Users.FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+			User existingUser = AtlasVistaContext.Users.FirstOrDefault(u => u.Email == strEmail && u.Password == strPassword);
 
 			if(existingUser != null)
 			{
