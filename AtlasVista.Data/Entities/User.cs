@@ -22,8 +22,6 @@ namespace AtlasVista.Data
 		public string Password { get; set; }
 
 
-		public User() { }
-
 		public User(UserDTO user)
 		{
 			Id = user.Id;
